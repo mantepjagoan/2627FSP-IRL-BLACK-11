@@ -1,0 +1,1424 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CASE: BLACK VEIL</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
+
+:root{
+    --navy:#050b18;
+    --navy2:#081426;
+    --panel:#0b172b;
+    --panel2:#0f2038;
+    --blue:#284c75;
+    --cyan:#62c6ff;
+    --red:#d7193f;
+    --text:#dcecff;
+    --muted:#71839d;
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    background:
+        radial-gradient(circle at 50% 0%, #102848 0%, transparent 45%),
+        linear-gradient(135deg,#020611,#071325 55%,#020611);
+    color:var(--text);
+    font-family:Inter, sans-serif;
+    min-height:100vh;
+    overflow-x:hidden;
+}
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    opacity:.035;
+    background-image:
+        repeating-linear-gradient(
+            0deg,
+            #fff 0px,
+            #fff 1px,
+            transparent 1px,
+            transparent 4px
+        );
+    z-index:100;
+}
+
+header{
+    height:75px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 5%;
+    border-bottom:1px solid #18304d;
+    background:rgba(3,9,20,.88);
+    backdrop-filter:blur(12px);
+    position:sticky;
+    top:0;
+    z-index:20;
+}
+
+.logo{
+    font-family:Cinzel,serif;
+    letter-spacing:4px;
+    color:#fff;
+    font-size:22px;
+}
+
+.logo span{
+    color:var(--red);
+}
+
+.level{
+    color:#7189a6;
+    font-size:12px;
+    letter-spacing:2px;
+}
+
+.container{
+    width:min(1400px,92%);
+    margin:30px auto 80px;
+}
+
+.case-header{
+    display:flex;
+    justify-content:space-between;
+    gap:20px;
+    align-items:end;
+    margin-bottom:25px;
+}
+
+.case-number{
+    color:#5e7695;
+    font-size:12px;
+    letter-spacing:4px;
+    margin-bottom:8px;
+}
+
+h1{
+    font-family:Cinzel,serif;
+    font-size:clamp(28px,5vw,56px);
+    letter-spacing:2px;
+}
+
+.subtitle{
+    color:#7286a1;
+    margin-top:8px;
+}
+
+.danger{
+    border:1px solid #5b1829;
+    color:#e26a84;
+    padding:12px 18px;
+    font-size:11px;
+    letter-spacing:2px;
+    background:#180912;
+}
+
+/* MAIN GRID */
+
+.game-grid{
+    display:grid;
+    grid-template-columns:1.5fr .8fr;
+    gap:22px;
+}
+
+.panel{
+    background:linear-gradient(145deg,rgba(11,23,43,.97),rgba(5,14,29,.98));
+    border:1px solid #193452;
+    box-shadow:0 20px 60px rgba(0,0,0,.35);
+}
+
+.panel-title{
+    padding:16px 20px;
+    border-bottom:1px solid #18304d;
+    font-size:11px;
+    letter-spacing:3px;
+    color:#7390b0;
+}
+
+.scene{
+    min-height:440px;
+    position:relative;
+    overflow:hidden;
+    background:
+        linear-gradient(180deg,rgba(0,0,0,.15),rgba(0,0,0,.8)),
+        radial-gradient(circle at 50% 40%,#294768,#07111f 65%);
+}
+
+.scene::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+        radial-gradient(circle at center,transparent 15%,rgba(0,0,0,.72) 90%);
+    pointer-events:none;
+}
+
+.room{
+    position:absolute;
+    inset:40px;
+    border:1px solid #355271;
+    background:
+        linear-gradient(90deg,transparent 48%,rgba(150,190,220,.04) 49%,transparent 51%),
+        linear-gradient(#10233a,#071321);
+    box-shadow:inset 0 0 100px #000;
+}
+
+.window{
+    position:absolute;
+    top:40px;
+    left:50%;
+    transform:translateX(-50%);
+    width:180px;
+    height:130px;
+    border:5px solid #142d47;
+    background:linear-gradient(#0b1c31,#02060c);
+}
+
+.window::before,
+.window::after{
+    content:"";
+    position:absolute;
+    background:#142d47;
+}
+
+.window::before{
+    width:5px;
+    height:100%;
+    left:50%;
+}
+
+.window::after{
+    height:5px;
+    width:100%;
+    top:50%;
+}
+
+.table{
+    position:absolute;
+    width:330px;
+    height:20px;
+    background:#111c2b;
+    left:50%;
+    bottom:100px;
+    transform:translateX(-50%);
+    box-shadow:0 15px 30px #000;
+}
+
+.body-shadow{
+    position:absolute;
+    width:120px;
+    height:180px;
+    left:50%;
+    bottom:118px;
+    transform:translateX(-50%);
+    background:#020307;
+    border-radius:45% 45% 15% 15%;
+    filter:blur(2px);
+}
+
+.body-shadow::before{
+    content:"";
+    position:absolute;
+    width:75px;
+    height:75px;
+    border-radius:50%;
+    background:#020307;
+    left:23px;
+    top:-55px;
+}
+
+.blood{
+    position:absolute;
+    width:80px;
+    height:35px;
+    background:#7c0e25;
+    border-radius:50%;
+    left:50%;
+    bottom:84px;
+    transform:translateX(-50%);
+    filter:blur(3px);
+    opacity:.75;
+}
+
+.evidence-marker{
+    position:absolute;
+    width:28px;
+    height:28px;
+    border-radius:50%;
+    background:rgba(98,198,255,.15);
+    border:1px solid var(--cyan);
+    color:var(--cyan);
+    display:grid;
+    place-items:center;
+    cursor:pointer;
+    z-index:5;
+    animation:pulse 2s infinite;
+}
+
+.evidence-marker:hover{
+    background:var(--cyan);
+    color:#03101e;
+    transform:scale(1.15);
+}
+
+.marker1{left:24%;bottom:130px}
+.marker2{right:25%;bottom:175px}
+.marker3{left:50%;top:35%}
+.marker4{right:17%;top:30%}
+
+@keyframes pulse{
+    0%,100%{box-shadow:0 0 0 0 rgba(98,198,255,.3)}
+    50%{box-shadow:0 0 0 12px rgba(98,198,255,0)}
+}
+
+/* RIGHT PANEL */
+
+.case-info{
+    padding:22px;
+}
+
+.case-info p{
+    color:#899bb1;
+    line-height:1.8;
+    font-size:14px;
+}
+
+.objective{
+    margin-top:18px;
+    border-left:2px solid var(--red);
+    padding:12px 15px;
+    background:#100b13;
+    color:#b7c5d7;
+    font-size:13px;
+}
+
+/* SUSPECTS */
+
+.suspects{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+    padding:18px;
+}
+
+.suspect{
+    cursor:pointer;
+    border:1px solid #1b3858;
+    background:#081527;
+    transition:.25s;
+    overflow:hidden;
+}
+
+.suspect:hover{
+    border-color:#5380aa;
+    transform:translateY(-3px);
+}
+
+.suspect.selected{
+    border-color:var(--red);
+    box-shadow:0 0 25px rgba(215,25,63,.15);
+}
+
+.face{
+    height:125px;
+    position:relative;
+    display:grid;
+    place-items:center;
+    font-size:55px;
+    background:
+        radial-gradient(circle,#38516d,#081321 65%);
+}
+
+.suspect:nth-child(2) .face{
+    background:radial-gradient(circle,#513b43,#120b12 65%);
+}
+
+.suspect:nth-child(3) .face{
+    background:radial-gradient(circle,#294f51,#071719 65%);
+}
+
+.suspect:nth-child(4) .face{
+    background:radial-gradient(circle,#453c55,#0d0914 65%);
+}
+
+.suspect-info{
+    padding:12px;
+}
+
+.suspect-name{
+    font-weight:600;
+    font-size:13px;
+}
+
+.suspect-role{
+    color:#667e9b;
+    font-size:11px;
+    margin-top:4px;
+}
+
+/* EVIDENCE */
+
+.evidence-list{
+    padding:18px;
+    display:grid;
+    gap:10px;
+}
+
+.evidence{
+    display:flex;
+    gap:12px;
+    align-items:center;
+    padding:13px;
+    background:#071222;
+    border:1px solid #172f4b;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.evidence:hover{
+    background:#0c1d34;
+    border-color:#416587;
+}
+
+.evidence-icon{
+    width:40px;
+    height:40px;
+    display:grid;
+    place-items:center;
+    background:#0d223b;
+    color:var(--cyan);
+    font-size:18px;
+}
+
+.evidence small{
+    color:#69809c;
+}
+
+/* CONTROLS */
+
+.controls{
+    display:flex;
+    gap:12px;
+    margin-top:22px;
+}
+
+button{
+    border:1px solid #315272;
+    background:#0a192d;
+    color:#cfe4fa;
+    padding:13px 20px;
+    cursor:pointer;
+    letter-spacing:1px;
+    transition:.2s;
+}
+
+button:hover{
+    background:#163454;
+    border-color:#5c91bd;
+}
+
+button.primary{
+    background:#173e62;
+    border-color:#5187b1;
+}
+
+button.danger-btn{
+    border-color:#641c2c;
+    color:#f08097;
+}
+
+/* MODAL */
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.82);
+    backdrop-filter:blur(8px);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:200;
+    padding:20px;
+}
+
+.modal.active{
+    display:flex;
+}
+
+.modal-card{
+    width:min(600px,100%);
+    background:#071222;
+    border:1px solid #315273;
+    box-shadow:0 30px 100px #000;
+    animation:modalIn .3s ease;
+}
+
+@keyframes modalIn{
+    from{opacity:0;transform:scale(.92) translateY(20px)}
+    to{opacity:1;transform:none}
+}
+
+.modal-content{
+    padding:25px;
+}
+
+.modal-content h2{
+    font-family:Cinzel,serif;
+    margin-bottom:12px;
+}
+
+.modal-content p{
+    color:#8fa2b9;
+    line-height:1.8;
+}
+
+.clue-image{
+    height:220px;
+    margin-bottom:20px;
+    display:grid;
+    place-items:center;
+    font-size:75px;
+    background:
+        radial-gradient(circle,#213c5a,#02060d);
+    border:1px solid #1e3b5b;
+}
+
+/* JUMPSCARE */
+
+.jumpscare{
+    position:fixed;
+    inset:0;
+    background:#000;
+    display:none;
+    z-index:999;
+    align-items:center;
+    justify-content:center;
+}
+
+.jumpscare.active{
+    display:flex;
+    animation:shake .08s infinite;
+}
+
+.monster{
+    width:300px;
+    height:400px;
+    position:relative;
+    background:
+        radial-gradient(ellipse at 35% 35%,#fff 0 8%,#000 9% 14%,transparent 15%),
+        radial-gradient(ellipse at 65% 35%,#fff 0 8%,#000 9% 14%,transparent 15%),
+        radial-gradient(ellipse at 50% 70%,#000 0 22%,transparent 23%),
+        linear-gradient(120deg,#19070d,#020203);
+    border-radius:48% 48% 30% 30%;
+    box-shadow:0 0 100px #b00028;
+}
+
+.monster::after{
+    content:"DON'T LOOK AWAY";
+    position:absolute;
+    bottom:-70px;
+    width:100%;
+    text-align:center;
+    color:#e51e48;
+    font-family:Cinzel,serif;
+    letter-spacing:5px;
+    font-size:20px;
+}
+
+@keyframes shake{
+    0%{transform:translate(0)}
+    25%{transform:translate(8px,-5px)}
+    50%{transform:translate(-8px,5px)}
+    75%{transform:translate(5px,7px)}
+    100%{transform:translate(-5px,-7px)}
+}
+
+/* NOTIFICATION */
+
+.notification{
+    position:fixed;
+    bottom:25px;
+    right:25px;
+    width:min(380px,calc(100% - 50px));
+    padding:16px;
+    background:#08182b;
+    border:1px solid #274a6b;
+    box-shadow:0 15px 50px #000;
+    transform:translateX(450px);
+    transition:.4s;
+    z-index:300;
+}
+
+.notification.show{
+    transform:none;
+}
+
+.notification strong{
+    color:#80cfff;
+}
+
+.progress{
+    margin-top:25px;
+}
+
+.progress-bar{
+    height:4px;
+    background:#142941;
+}
+
+.progress-fill{
+    height:100%;
+    background:linear-gradient(90deg,#274e73,#68c9ff);
+    width:25%;
+    transition:.5s;
+}
+
+@media(max-width:900px){
+    .game-grid{
+        grid-template-columns:1fr;
+    }
+
+    .scene{
+        min-height:360px;
+    }
+}
+
+@media(max-width:550px){
+    .suspects{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .case-header{
+        display:block;
+    }
+
+    .danger{
+        display:inline-block;
+        margin-top:15px;
+    }
+
+    .controls{
+        flex-direction:column;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">BLACK<span>VEIL</span></div>
+    <div class="level">INVESTIGATOR LEVEL <b id="level">01</b></div>
+</header>
+
+<div class="container">
+
+    <div class="case-header">
+        <div>
+            <div class="case-number" id="caseNumber">CASE FILE 001</div>
+            <h1 id="caseTitle">THE ROOM 307</h1>
+            <div class="subtitle" id="caseSubtitle">
+                "The door was locked from the inside."
+            </div>
+        </div>
+
+        <div class="danger">
+            ● CLASSIFIED / HIGH RISK
+        </div>
+    </div>
+
+    <div class="game-grid">
+
+        <main>
+
+            <section class="panel">
+                <div class="panel-title">
+                    CRIME SCENE / INTERACTIVE INVESTIGATION
+                </div>
+
+                <div class="scene">
+
+                    <div class="room">
+                        <div class="window"></div>
+                        <div class="body-shadow"></div>
+                        <div class="blood"></div>
+                        <div class="table"></div>
+
+                        <div class="evidence-marker marker1"
+                             onclick="inspectEvidence(0)">1</div>
+
+                        <div class="evidence-marker marker2"
+                             onclick="inspectEvidence(1)">2</div>
+
+                        <div class="evidence-marker marker3"
+                             onclick="inspectEvidence(2)">3</div>
+
+                        <div class="evidence-marker marker4"
+                             onclick="inspectEvidence(3)">4</div>
+                    </div>
+
+                </div>
+            </section>
+
+            <section class="panel" style="margin-top:22px">
+
+                <div class="panel-title">
+                    PERSONS OF INTEREST
+                </div>
+
+                <div class="suspects">
+
+                    <div class="suspect" onclick="selectSuspect(0)">
+                        <div class="face">👤</div>
+                        <div class="suspect-info">
+                            <div class="suspect-name">MARCUS VALE</div>
+                            <div class="suspect-role">Hotel Manager</div>
+                        </div>
+                    </div>
+
+                    <div class="suspect" onclick="selectSuspect(1)">
+                        <div class="face">👤</div>
+                        <div class="suspect-info">
+                            <div class="suspect-name">ELENA CROSS</div>
+                            <div class="suspect-role">Roommate</div>
+                        </div>
+                    </div>
+
+                    <div class="suspect" onclick="selectSuspect(2)">
+                        <div class="face">👤</div>
+                        <div class="suspect-info">
+                            <div class="suspect-name">NOAH REED</div>
+                            <div class="suspect-role">Night Guard</div>
+                        </div>
+                    </div>
+
+                    <div class="suspect" onclick="selectSuspect(3)">
+                        <div class="face">👤</div>
+                        <div class="suspect-info">
+                            <div class="suspect-name">SARA WOLFE</div>
+                            <div class="suspect-role">Journalist</div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+        </main>
+
+        <aside>
+
+            <section class="panel">
+                <div class="panel-title">CASE BRIEFING</div>
+
+                <div class="case-info">
+                    <p id="description">
+                        At 02:13 AM, hotel staff discovered a body
+                        inside Room 307. The door was locked from
+                        inside. No weapon was found.
+                    </p>
+
+                    <div class="objective">
+                        <strong>OBJECTIVE</strong><br><br>
+                        Investigate the scene. Examine the evidence.
+                        Identify the killer.
+                    </div>
+
+                    <div class="progress">
+                        <div style="display:flex;justify-content:space-between;font-size:11px;color:#66809e;margin-bottom:7px">
+                            <span>INVESTIGATION</span>
+                            <span id="progressText">0 / 4</span>
+                        </div>
+
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="panel" style="margin-top:22px">
+
+                <div class="panel-title">
+                    EVIDENCE DATABASE
+                </div>
+
+                <div class="evidence-list" id="evidenceList"></div>
+
+            </section>
+
+            <div class="controls">
+
+                <button onclick="startAudio()">
+                    🔊 ENABLE SOUND
+                </button>
+
+                <button class="primary"
+                        onclick="solveCase()">
+                    SOLVE CASE
+                </button>
+
+            </div>
+
+        </aside>
+
+    </div>
+
+</div>
+
+
+<!-- MODAL -->
+
+<div class="modal" id="modal">
+
+    <div class="modal-card">
+
+        <div class="panel-title">
+            EVIDENCE ANALYSIS
+        </div>
+
+        <div class="modal-content">
+
+            <div class="clue-image" id="clueImage">
+                🔎
+            </div>
+
+            <h2 id="modalTitle">Evidence</h2>
+
+            <p id="modalText"></p>
+
+            <br>
+
+            <button onclick="closeModal()">CLOSE FILE</button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- JUMPSCARE -->
+
+<div class="jumpscare" id="jumpscare">
+    <div class="monster"></div>
+</div>
+
+
+<!-- NOTIFICATION -->
+
+<div class="notification" id="notification">
+    <strong id="notificationTitle">SYSTEM</strong>
+    <p id="notificationText" style="margin-top:6px;color:#91a3ba;font-size:13px"></p>
+</div>
+
+
+<script>
+
+/* =========================
+   CASE DATABASE
+========================= */
+
+const cases = [
+
+{
+    title:"THE ROOM 307",
+    subtitle:'"The door was locked from the inside."',
+    description:
+    "At 02:13 AM, hotel staff discovered a body inside Room 307. The door was locked from inside. No weapon was found.",
+    evidence:[
+        {
+            title:"Broken Watch",
+            icon:"⌚",
+            text:"The victim's watch stopped at 01:47 AM. The glass is broken from the inside."
+        },
+        {
+            title:"Wet Footprints",
+            icon:"👣",
+            text:"Wet footprints lead from the bathroom toward the window. They don't match the victim's shoes."
+        },
+        {
+            title:"Hidden Key",
+            icon:"🔑",
+            text:"A second room key is hidden beneath the carpet. Hotel records say only one key was issued."
+        },
+        {
+            title:"Black Thread",
+            icon:"🧵",
+            text:"A tiny black thread is caught beneath the victim's fingernail. It appears to come from a very expensive coat."
+        }
+    ],
+    killer:2
+},
+
+{
+    title:"THE EMPTY HOUSE",
+    subtitle:'"Someone was watching from upstairs."',
+    description:
+    "A family disappears without leaving signs of forced entry. Dinner remains on the table, still warm.",
+    evidence:[
+        {
+            title:"Cold Dinner",
+            icon:"🍽️",
+            text:"Three plates were prepared. Only one was touched."
+        },
+        {
+            title:"Security Tape",
+            icon:"📹",
+            text:"The camera records a figure entering at 23:18. The face has been deliberately erased."
+        },
+        {
+            title:"Child's Drawing",
+            icon:"🖼️",
+            text:"A drawing depicts four family members... and a fifth person standing behind them."
+        },
+        {
+            title:"Basement Door",
+            icon:"🚪",
+            text:"There are scratch marks on the inside of the basement door."
+        }
+    ],
+    killer:3
+},
+
+{
+    title:"THE LAST PHONE CALL",
+    subtitle:'"She called herself from a dead phone."',
+    description:
+    "A journalist receives a call from her own number at midnight. The next morning, she is found dead.",
+    evidence:[
+        {
+            title:"Phone Log",
+            icon:"📱",
+            text:"The final call originated from a phone that was officially destroyed six months ago."
+        },
+        {
+            title:"Voice Recording",
+            icon:"🎙️",
+            text:"The recording contains two voices. One belongs to the victim."
+        },
+        {
+            title:"Train Ticket",
+            icon:"🎫",
+            text:"A ticket dated tomorrow is found inside her pocket."
+        },
+        {
+            title:"Mirror Message",
+            icon:"🪞",
+            text:"Written on the mirror: YOU ALREADY KNOW WHO DID IT."
+        }
+    ],
+    killer:0
+},
+
+{
+    title:"THE RED HALLWAY",
+    subtitle:'"Every camera went dark at 03:03."',
+    description:
+    "A museum security guard is found dead in a corridor surrounded by priceless paintings.",
+    evidence:[
+        {
+            title:"Security Card",
+            icon:"💳",
+            text:"The victim's access card was used after his recorded time of death."
+        },
+        {
+            title:"Red Paint",
+            icon:"🎨",
+            text:"A strange red substance is found on the floor. Laboratory analysis says it isn't paint."
+        },
+        {
+            title:"Missing Painting",
+            icon:"🖼️",
+            text:"One painting has disappeared. The frame is still warm."
+        },
+        {
+            title:"Security Room",
+            icon:"🖥️",
+            text:"The cameras were manually disabled using an administrator account."
+        }
+    ],
+    killer:1
+}
+
+];
+
+
+/* =========================
+   GAME STATE
+========================= */
+
+let level =
+    parseInt(localStorage.getItem("blackveilLevel")) || 0;
+
+let discovered = [];
+let selectedSuspect = null;
+
+function currentCase(){
+    return cases[level % cases.length];
+}
+
+
+/* =========================
+   LOAD CASE
+========================= */
+
+function loadCase(){
+
+    const c=currentCase();
+
+    document.getElementById("level")
+        .textContent=String(level+1).padStart(2,"0");
+
+    document.getElementById("caseNumber")
+        .textContent=
+        "CASE FILE " +
+        String(level+1).padStart(3,"0");
+
+    document.getElementById("caseTitle")
+        .textContent=c.title;
+
+    document.getElementById("caseSubtitle")
+        .textContent=c.subtitle;
+
+    document.getElementById("description")
+        .textContent=c.description;
+
+    discovered=[];
+    selectedSuspect=null;
+
+    renderEvidence();
+    updateProgress();
+}
+
+
+/* =========================
+   EVIDENCE
+========================= */
+
+function renderEvidence(){
+
+    const list=
+        document.getElementById("evidenceList");
+
+    list.innerHTML="";
+
+    currentCase().evidence.forEach((e,i)=>{
+
+        const div=document.createElement("div");
+
+        div.className="evidence";
+
+        div.innerHTML=`
+            <div class="evidence-icon">${e.icon}</div>
+            <div>
+                <b>${e.title}</b><br>
+                <small>${discovered.includes(i)
+                    ?"ANALYZED"
+                    :"CLICK TO INVESTIGATE"}</small>
+            </div>
+        `;
+
+        div.onclick=()=>inspectEvidence(i);
+
+        list.appendChild(div);
+    });
+}
+
+
+function inspectEvidence(index){
+
+    if(!discovered.includes(index)){
+        discovered.push(index);
+    }
+
+    const evidence=
+        currentCase().evidence[index];
+
+    document.getElementById("clueImage")
+        .textContent=evidence.icon;
+
+    document.getElementById("modalTitle")
+        .textContent=evidence.title;
+
+    document.getElementById("modalText")
+        .textContent=evidence.text;
+
+    document.getElementById("modal")
+        .classList.add("active");
+
+    updateProgress();
+    renderEvidence();
+
+    /*
+       RANDOM HORROR EVENT
+    */
+
+    if(Math.random()<0.28){
+
+        setTimeout(()=>{
+            triggerJumpscare();
+        },700);
+    }
+}
+
+
+function closeModal(){
+
+    document.getElementById("modal")
+        .classList.remove("active");
+}
+
+
+function updateProgress(){
+
+    const total=currentCase().evidence.length;
+
+    document.getElementById("progressText")
+        .textContent=
+        `${discovered.length} / ${total}`;
+
+    document.getElementById("progressFill")
+        .style.width=
+        `${(discovered.length/total)*100}%`;
+}
+
+
+/* =========================
+   SUSPECT SELECTION
+========================= */
+
+function selectSuspect(index){
+
+    selectedSuspect=index;
+
+    document.querySelectorAll(".suspect")
+        .forEach((el,i)=>{
+            el.classList.toggle(
+                "selected",
+                i===index
+            );
+        });
+
+    notify(
+        "SUSPECT SELECTED",
+        "You selected suspect #" + (index+1)
+    );
+}
+
+
+/* =========================
+   SOLVE CASE
+========================= */
+
+function solveCase(){
+
+    if(discovered.length<4){
+
+        notify(
+            "INSUFFICIENT EVIDENCE",
+            "You haven't investigated the entire crime scene."
+        );
+
+        return;
+    }
+
+    if(selectedSuspect===null){
+
+        notify(
+            "NO SUSPECT",
+            "Select a person of interest first."
+        );
+
+        return;
+    }
+
+    const correct=
+        selectedSuspect===currentCase().killer;
+
+    if(correct){
+
+        winCase();
+
+    }else{
+
+        notify(
+            "WRONG CONCLUSION",
+            "The evidence contradicts your theory."
+        );
+
+        setTimeout(()=>{
+            triggerJumpscare();
+        },1000);
+    }
+}
+
+
+/* =========================
+   WIN
+========================= */
+
+function winCase(){
+
+    const oldTitle=
+        currentCase().title;
+
+    notify(
+        "CASE SOLVED",
+        oldTitle+" has been closed."
+    );
+
+    setTimeout(()=>{
+
+        level++;
+
+        localStorage.setItem(
+            "blackveilLevel",
+            level
+        );
+
+        loadCase();
+
+        notify(
+            "NEW CASE UNLOCKED",
+            "CASE FILE "+
+            String(level+1).padStart(3,"0")
+        );
+
+    },1800);
+}
+
+
+/* =========================
+   NOTIFICATION
+========================= */
+
+function notify(title,text){
+
+    const n=
+        document.getElementById("notification");
+
+    document.getElementById("notificationTitle")
+        .textContent=title;
+
+    document.getElementById("notificationText")
+        .textContent=text;
+
+    n.classList.add("show");
+
+    clearTimeout(window.noticeTimer);
+
+    window.noticeTimer=
+        setTimeout(()=>{
+            n.classList.remove("show");
+        },3500);
+}
+
+
+/* =========================
+   JUMPSCARE
+========================= */
+
+function triggerJumpscare(){
+
+    const j=
+        document.getElementById("jumpscare");
+
+    j.classList.add("active");
+
+    playScare();
+
+    setTimeout(()=>{
+        j.classList.remove("active");
+    },1200);
+}
+
+
+/* =========================
+   HORROR AUDIO
+   Web Audio API
+========================= */
+
+let audioStarted=false;
+let audioCtx;
+let masterGain;
+let heartbeatTimer;
+
+function startAudio(){
+
+    if(audioStarted) return;
+
+    audioStarted=true;
+
+    audioCtx=
+        new (window.AudioContext ||
+        window.webkitAudioContext)();
+
+    masterGain=
+        audioCtx.createGain();
+
+    masterGain.gain.value=.08;
+
+    masterGain.connect(
+        audioCtx.destination
+    );
+
+    createDrone();
+
+    heartbeatTimer=
+        setInterval(
+            heartbeat,
+            1900
+        );
+
+    notify(
+        "AUDIO ENABLED",
+        "The investigation has begun..."
+    );
+}
+
+
+function createDrone(){
+
+    const osc=
+        audioCtx.createOscillator();
+
+    const gain=
+        audioCtx.createGain();
+
+    osc.type="sine";
+
+    osc.frequency.value=48;
+
+    gain.gain.value=.025;
+
+    osc.connect(gain);
+    gain.connect(masterGain);
+
+    osc.start();
+}
+
+
+function heartbeat(){
+
+    if(!audioCtx) return;
+
+    const osc=
+        audioCtx.createOscillator();
+
+    const gain=
+        audioCtx.createGain();
+
+    osc.type="sine";
+
+    osc.frequency.value=55;
+
+    gain.gain.setValueAtTime(
+        .0001,
+        audioCtx.currentTime
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+        .22,
+        audioCtx.currentTime+.05
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+        .0001,
+        audioCtx.currentTime+.25
+    );
+
+    osc.connect(gain);
+    gain.connect(masterGain);
+
+    osc.start();
+    osc.stop(audioCtx.currentTime+.3);
+}
+
+
+function playScare(){
+
+    if(!audioCtx) return;
+
+    const osc=
+        audioCtx.createOscillator();
+
+    const gain=
+        audioCtx.createGain();
+
+    osc.type="sawtooth";
+
+    osc.frequency.setValueAtTime(
+        80,
+        audioCtx.currentTime
+    );
+
+    osc.frequency.exponentialRampToValueAtTime(
+        900,
+        audioCtx.currentTime+.35
+    );
+
+    gain.gain.setValueAtTime(
+        .001,
+        audioCtx.currentTime
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+        .7,
+        audioCtx.currentTime+.05
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+        .001,
+        audioCtx.currentTime+.7
+    );
+
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+
+    osc.start();
+    osc.stop(audioCtx.currentTime+.8);
+}
+
+
+/* =========================
+   KEYBOARD SHORTCUT
+========================= */
+
+document.addEventListener(
+    "keydown",
+    e=>{
+
+        if(e.key==="Escape"){
+            closeModal();
+        }
+
+        if(e.key===" "){
+            if(!audioStarted){
+                startAudio();
+            }
+        }
+    }
+);
+
+
+/* =========================
+   INIT
+========================= */
+
+loadCase();
+
+</script>
+
+</body>
+</html>
