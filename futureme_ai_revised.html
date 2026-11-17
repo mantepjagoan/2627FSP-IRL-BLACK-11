@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FutureMe AI — Face & Future Experience</title>
+<style>
+:root{--bg:#090d1b;--panel:#121a2d;--panel2:#18233b;--gold:#f3c978;--cyan:#76e4e8;--muted:#a8b4ca;--white:#f6f7fb;--line:rgba(255,255,255,.1)}
+*{box-sizing:border-box}body{margin:0;color:var(--white);font-family:Inter,Segoe UI,Arial,sans-serif;background:radial-gradient(circle at 15% 5%,#24365c 0,transparent 32%),radial-gradient(circle at 90% 35%,#26304c 0,transparent 30%),var(--bg);min-height:100vh}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.16;background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px);background-size:42px 42px;mask-image:linear-gradient(to bottom,black,transparent)}
+header{max-width:1180px;margin:auto;padding:25px 22px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+.brand{font-weight:800;letter-spacing:.12em}.brand span{color:var(--gold)}.tag{font-size:12px;color:var(--cyan);border:1px solid #477b85;border-radius:30px;padding:8px 12px}
+main{max-width:1180px;margin:auto;padding:24px 22px 60px}.hero{text-align:center;margin:24px auto 34px;max-width:760px}.eyebrow{color:var(--cyan);letter-spacing:.22em;font-size:11px;font-weight:700}.hero h1{font-size:clamp(34px,6vw,62px);line-height:1.04;margin:14px 0;background:linear-gradient(100deg,#fff 15%,var(--gold),#a9f2f1);-webkit-background-clip:text;background-clip:text;color:transparent}.hero p{color:var(--muted);line-height:1.7;margin:0 auto;max-width:620px}
+.grid{display:grid;grid-template-columns:1.08fr .92fr;gap:20px;align-items:start}.panel{background:linear-gradient(145deg,rgba(24,35,59,.96),rgba(13,20,37,.96));border:1px solid var(--line);border-radius:23px;padding:22px;box-shadow:0 18px 60px #0004}.panel h2{margin:0 0 7px;font-size:21px}.sub{color:var(--muted);font-size:13px;line-height:1.55;margin:0 0 18px}
+.camera{position:relative;background:#050914;border-radius:17px;overflow:hidden;aspect-ratio:4/3;border:1px solid #33415d;display:grid;place-items:center}
+video,.result-canvas{width:100%;height:100%;object-fit:cover;display:block}.camera-placeholder{position:absolute;text-align:center;color:var(--muted);padding:20px}.camera-placeholder .lens{font-size:44px;margin-bottom:10px;color:var(--cyan)}
+.scanline{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);box-shadow:0 0 18px var(--cyan);animation:scan 3.2s linear infinite;opacity:.8;pointer-events:none}
+@keyframes scan{0%{top:4%}100%{top:96%}}
+.controls{display:flex;flex-wrap:wrap;gap:9px;margin-top:14px}.btn{border:0;border-radius:12px;padding:12px 15px;font-weight:700;cursor:pointer;color:#101727;background:linear-gradient(120deg,var(--gold),#ffe4a8);transition:.2s}.btn:hover{transform:translateY(-2px);filter:brightness(1.06)}.btn.secondary{background:#263550;color:var(--white);border:1px solid #41516d}.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.status{font-size:12px;color:var(--muted);margin-top:11px;min-height:18px}.notice{font-size:11px;color:#aebbd0;line-height:1.5;margin-top:13px;padding:11px 12px;background:#0b1222;border-radius:11px;border-left:3px solid var(--gold)}
+.preview{display:none;margin-top:14px}.preview.active{display:block}.preview canvas{width:100%;border-radius:14px;border:1px solid var(--line)}
+.tabs{display:flex;gap:8px;margin:15px 0}.tab{flex:1;padding:11px;border-radius:11px;border:1px solid var(--line);background:#0c1426;color:var(--muted);cursor:pointer;font-weight:700}.tab.active{color:var(--gold);border-color:#b28b4d;background:#2a2630}
+.field{margin:14px 0}.field label{display:block;font-size:12px;color:var(--muted);margin-bottom:7px}.field input,.field select{width:100%;padding:12px 13px;border:1px solid #34435e;background:#0b1426;color:var(--white);border-radius:11px;outline:none}.field input:focus,.field select:focus{border-color:var(--cyan)}
+.result{display:none;margin-top:16px;padding:17px;border-radius:15px;background:linear-gradient(135deg,#1b2942,#10192b);border:1px solid #42516b}.result.show{display:block;animation:rise .5s ease}.result h3{color:var(--gold);margin:0 0 12px}.result p{font-size:13px;color:#d6deeb;line-height:1.65;margin:9px 0}.result strong{color:var(--cyan)}@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.pill{display:inline-block;padding:5px 9px;border:1px solid #52627e;border-radius:30px;color:var(--cyan);font-size:11px;margin:3px 4px 3px 0}
+footer{text-align:center;color:#8290a8;font-size:11px;margin-top:28px;line-height:1.6}
+@media(max-width:820px){.grid{grid-template-columns:1fr}header{padding:18px}main{padding:12px 15px 40px}.panel{padding:17px}.hero{margin-top:16px}}
+</style>
+</head>
+<body>
+<header><div class="brand">FUTURE<span>ME</span> / AI</div><div class="tag">✦ YOUR TOMORROW, REIMAGINED</div></header>
+<main>
+<section class="hero"><div class="eyebrow">AN INTERACTIVE SELF-DISCOVERY EXPERIENCE</div><h1>Meet the Future You.</h1><p>Jelajahi simulasi wajah di usia lanjut dan baca “ramalan” masa depan versi hiburan. Semua diproses sebagai pengalaman kreatif—bukan prediksi ilmiah atau kepastian hidup.</p></section>
+<div class="grid">
+<section class="panel">
+<h2>01 / Future Face Scanner</h2><p class="sub">Aktifkan kamera, posisikan wajah di tengah, lalu ambil foto untuk membuat simulasi visual versi usia lanjut.</p>
+<div class="camera" id="cameraBox">
+<video id="video" autoplay playsinline muted></video>
+<div class="camera-placeholder" id="placeholder"><div class="lens">◎</div><b>Camera is waiting</b><div style="font-size:12px;margin-top:6px">Tekan “Aktifkan Kamera” untuk memulai</div></div>
+<div class="scanline"></div>
+</div>
+<div class="controls"><button class="btn" id="startBtn">Aktifkan Kamera</button><button class="btn secondary" id="switchBtn" disabled>Ganti Kamera</button><button class="btn secondary" id="captureBtn" disabled>Ambil Foto</button></div>
+<div class="status" id="cameraStatus">Kamera belum diaktifkan.</div>
+<div class="preview" id="preview"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:9px"><b>✦ Simulasi Future Face</b><span class="pill">ART FILTER</span></div><canvas id="resultCanvas" class="result-canvas"></canvas><div class="controls"><button class="btn secondary" id="saveBtn">Simpan Gambar</button><button class="btn secondary" id="resetBtn">Ulangi</button></div></div>
+<div class="notice">Privasi: kamera hanya aktif setelah kamu memberi izin. Foto diproses di browser pada perangkat ini dan tidak dikirim ke server. Efek usia adalah filter artistik sederhana, bukan gambaran akurat tentang penampilanmu kelak.</div>
+</section>
+<section class="panel">
+<h2>02 / Future Fortune</h2><p class="sub">Isi minat dan impianmu untuk mendapatkan skenario masa depan yang lebih terperinci. Hasilnya adalah cerita fiksi yang dipersonalisasi, bukan kepastian.</p>
+<div class="field"><label for="nickname">Nama panggilan</label><input id="nickname" maxlength="20" placeholder="Contoh: Alex"></div>
+<div class="field"><label for="interest">Bidang yang paling menarik buatmu</label><select id="interest"><option value="creative">Seni, desain & kreativitas</option><option value="science">Sains & teknologi</option><option value="business">Bisnis & kewirausahaan</option><option value="social">Pendidikan & membantu orang</option><option value="nature">Alam & lingkungan</option><option value="explore">Belum tahu, masih mengeksplorasi</option></select></div>
+<div class="field"><label for="dream">Satu impian yang ingin kamu capai</label><input id="dream" maxlength="70" placeholder="Contoh: punya studio kreatif"></div>
+<div class="tabs"><button class="tab active" data-tab="destiny">Future reading</button><button class="tab" data-tab="vibe">Your vibe</button></div>
+<div class="controls"><button class="btn" id="fortuneBtn" style="width:100%">✧ Buka Ramalan Masa Depan</button></div>
+<div class="result" id="fortuneResult" aria-live="polite"></div>
+<div class="notice">Catatan: bagian pekerjaan, pasangan, keluarga, dan kekayaan hanyalah cerita fiksi yang diacak. Tidak ada kamera atau AI yang bisa mengetahui masa depan, jumlah anak, pasangan, atau kondisi finansial seseorang.</div>
+</section>
+</div>
+<footer>FUTUREME AI · A playful imagination lab<br>Jadilah penulis masa depanmu sendiri. Pilihan, kesempatan, dan perjalanan hidup bisa berubah.</footer>
+</main>
+<script>
+const video=document.getElementById('video'), placeholder=document.getElementById('placeholder');
+const startBtn=document.getElementById('startBtn'),switchBtn=document.getElementById('switchBtn'),captureBtn=document.getElementById('captureBtn');
+const statusEl=document.getElementById('cameraStatus'),canvas=document.getElementById('resultCanvas'),ctx=canvas.getContext('2d');
+let stream=null,facing='user',captured=false;
+async function startCamera(){
+  if(!navigator.mediaDevices?.getUserMedia){statusEl.textContent='Browser ini tidak mendukung akses kamera. Coba Chrome melalui HTTPS atau localhost.';return}
+  stopCamera();
+  try{
+    stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:facing},width:{ideal:1280},height:{ideal:960}},audio:false});
+    video.srcObject=stream;await video.play();placeholder.style.display='none';
+    switchBtn.disabled=false;captureBtn.disabled=false;startBtn.textContent='Matikan Kamera';
+    statusEl.textContent='Kamera aktif. Posisikan wajah di tengah lalu ambil foto.';
+  }catch(e){statusEl.textContent=e.name==='NotAllowedError'?'Izin kamera ditolak. Aktifkan izin kamera di pengaturan browser.':'Kamera tidak dapat dibuka. Pastikan kamera tidak sedang dipakai aplikasi lain.'}
+}
+function stopCamera(){if(stream){stream.getTracks().forEach(t=>t.stop());stream=null}video.srcObject=null;placeholder.style.display='block';switchBtn.disabled=true;captureBtn.disabled=true;startBtn.textContent='Aktifkan Kamera';}
+startBtn.addEventListener('click',()=>stream?stopCamera():startCamera());
+switchBtn.addEventListener('click',async()=>{facing=facing==='user'?'environment':'user';await startCamera()});
+captureBtn.addEventListener('click',()=>{
+ if(!video.videoWidth)return;
+ const w=video.videoWidth,h=video.videoHeight;canvas.width=w;canvas.height=h;
+ ctx.save();ctx.translate(w,0);ctx.scale(-1,1);ctx.drawImage(video,0,0,w,h);ctx.restore();
+ // Artistic aging treatment: warm monochrome tone and subtle texture; not face recognition or biometric prediction.
+ const image=ctx.getImageData(0,0,w,h),d=image.data;
+ for(let i=0;i<d.length;i+=4){const y=.299*d[i]+.587*d[i+1]+.114*d[i+2];d[i]=Math.min(255,y*1.06+17);d[i+1]=Math.min(255,y*.94+10);d[i+2]=Math.min(255,y*.78+2)}
+ ctx.putImageData(image,0,0);
+ const grad=ctx.createLinearGradient(0,0,0,h);grad.addColorStop(0,'rgba(220,190,135,.10)');grad.addColorStop(1,'rgba(80,52,35,.15)');ctx.fillStyle=grad;ctx.fillRect(0,0,w,h);
+ // Fine illustrative lines around the image edges add a gentle vintage portrait treatment.
+ ctx.save();ctx.globalAlpha=.17;ctx.strokeStyle='#614b3b';ctx.lineWidth=Math.max(1,w/700);
+ for(let i=0;i<18;i++){let x=w*(.18+(i%6)*.12),y=h*(.28+Math.floor(i/6)*.2);ctx.beginPath();ctx.moveTo(x,y);ctx.quadraticCurveTo(x+12,y+5,x+24,y+1);ctx.stroke()}
+ ctx.restore();
+ document.getElementById('preview').classList.add('active');captured=true;statusEl.textContent='Simulasi selesai. Ini filter visual artistik, bukan prediksi wajah asli di masa depan.';
+});
+document.getElementById('saveBtn').addEventListener('click',()=>{if(!captured)return;const a=document.createElement('a');a.download='futureme-artistic-portrait.png';a.href=canvas.toDataURL('image/png');a.click()});
+document.getElementById('resetBtn').addEventListener('click',()=>{document.getElementById('preview').classList.remove('active');captured=false;statusEl.textContent='Ambil foto baru kapan saja.'});
+window.addEventListener('pagehide',stopCamera);
+
+const readings = {
+ creative: {
+  jobs: [
+   ["Creative Director", "memimpin tim kecil yang mengerjakan kampanye visual untuk brand lifestyle", "portofolio karya, kemampuan bercerita, dan keberanian mencoba konsep baru"],
+   ["UI/UX Designer", "merancang aplikasi yang mudah dipakai dan menyenangkan dilihat", "riset pengguna, desain antarmuka, dan pemahaman teknologi"],
+   ["Art & Illustration Entrepreneur", "membangun studio ilustrasi yang menerima proyek dari berbagai klien", "gaya visual yang konsisten, komunikasi klien, dan pengelolaan proyek"]
+  ],
+  workPlaces:["studio kreatif yang kolaboratif","perusahaan teknologi dengan tim lintas negara","studio independen yang kamu bangun bersama rekan"]
+ },
+ science: {
+  jobs: [
+   ["Data Scientist", "menganalisis pola data untuk membantu tim mengambil keputusan", "statistika, pemrograman, dan kemampuan menjelaskan temuan"],
+   ["AI Product Specialist", "membantu merancang dan menguji fitur AI agar bermanfaat bagi pengguna", "logika, pemahaman teknologi, dan etika penggunaan AI"],
+   ["Researcher", "mengembangkan penelitian dan mempresentasikan hasilnya", "rasa ingin tahu, ketelitian, dan kebiasaan membaca sumber tepercaya"]
+  ],
+  workPlaces:["laboratorium riset atau universitas","perusahaan teknologi yang berkembang","tim inovasi yang bekerja dengan banyak bidang"]
+ },
+ business: {
+  jobs: [
+   ["Brand Strategist", "menyusun identitas dan strategi komunikasi sebuah merek", "analisis pasar, kreativitas, dan komunikasi"],
+   ["Founder of a Small Business", "mengembangkan usaha kecil dari ide menjadi layanan yang punya pelanggan tetap", "uji coba produk, pencatatan keuangan, dan memahami kebutuhan pelanggan"],
+   ["Business Development Associate", "membangun kerja sama dan menemukan peluang proyek baru", "negosiasi sehat, presentasi, dan pemahaman bisnis"]
+  ],
+  workPlaces:["perusahaan rintisan yang dinamis","bisnis mandiri yang tumbuh bertahap","perusahaan mapan dengan kesempatan memimpin proyek"]
+ },
+ social: {
+  jobs: [
+   ["Education Designer", "membuat materi belajar dan program pendidikan yang mudah dipahami", "komunikasi, empati, dan desain pembelajaran"],
+   ["Psychology or Community Researcher", "mempelajari kebutuhan komunitas dan menyusun program dukungan", "metode riset, mendengar aktif, dan analisis"],
+   ["Public Relations Specialist", "menjembatani komunikasi organisasi dengan masyarakat", "menulis, berbicara di depan umum, dan berpikir kritis"]
+  ],
+  workPlaces:["lembaga pendidikan","organisasi sosial atau komunitas","perusahaan yang punya program pengembangan masyarakat"]
+ },
+ nature: {
+  jobs: [
+   ["Environmental Consultant", "membantu organisasi merancang kegiatan yang lebih ramah lingkungan", "ilmu lingkungan, riset, dan pemecahan masalah"],
+   ["Sustainable Product Designer", "merancang produk dengan bahan dan proses yang lebih bertanggung jawab", "desain, material, dan pemikiran sistem"],
+   ["Conservation Researcher", "mengumpulkan data dan mendukung perlindungan ekosistem", "observasi, sains, dan kerja lapangan"]
+  ],
+  workPlaces:["organisasi konservasi","tim riset lingkungan","perusahaan yang mengembangkan solusi berkelanjutan"]
+ },
+ explore: {
+  jobs: [
+   ["Multidisciplinary Creator", "menggabungkan beberapa keahlian untuk membuat proyek yang belum pernah dicoba", "eksperimen, belajar mandiri, dan membangun portofolio"],
+   ["Product Project Coordinator", "menghubungkan ide, tim, dan proses agar sebuah produk selesai", "organisasi, komunikasi, dan pemecahan masalah"],
+   ["Emerging-Field Specialist", "menekuni bidang baru setelah menemukan masalah yang ingin kamu bantu selesaikan", "fleksibilitas, riset, dan belajar berkelanjutan"]
+  ],
+  workPlaces:["tim lintas disiplin","organisasi yang memberi ruang eksplorasi","proyek mandiri yang berkembang menjadi profesi"]
+ }
+};
+const choose = (arr, seed) => arr[Math.abs(seed) % arr.length];
+function hashText(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}
+function makeFortune(){
+ const name=document.getElementById('nickname').value.trim()||'Future Star';
+ const interest=document.getElementById('interest').value;
+ const dream=document.getElementById('dream').value.trim();
+ const seed=hashText(name+'|'+interest+'|'+dream);
+ const data=readings[interest];
+ const job=choose(data.jobs,seed);
+ const place=choose(data.workPlaces,seed>>>3);
+ const partnerTraits=choose([
+  "komunikatif, menghargai batasan, dan mendukung tujuanmu",
+  "tenang saat menghadapi masalah dan mau menyelesaikan konflik dengan dewasa",
+  "punya minat sendiri, tetapi tetap senang bertukar cerita dan ide",
+  "jujur, konsisten, dan menghormati keputusan satu sama lain"
+ ],seed>>>5);
+ const relationshipScene=choose([
+  "Kalian mungkin bertemu lewat kegiatan, kelas, komunitas, atau proyek yang sama.",
+  "Kedekatan dalam skenario ini tumbuh perlahan dari pertemanan dan rasa saling percaya.",
+  "Cerita ini membayangkan hubungan yang dibangun lewat komunikasi, bukan sekadar kesan pertama."
+ ],seed>>>7);
+ const moneyPath=choose([
+  ["Stabil bertahap","Kamu membangun dana darurat, membedakan kebutuhan dan keinginan, lalu mulai menabung atau berinvestasi setelah memahami risikonya."],
+  ["Kreatif dan mandiri","Pemasukan dalam skenario ini datang dari pekerjaan utama ditambah proyek sampingan. Kamu belajar menyisihkan hasilnya dan tidak mengandalkan pemasukan yang belum pasti."],
+  ["Berorientasi tujuan","Kamu menetapkan target keuangan yang terukur, mengevaluasinya berkala, dan meningkatkan keterampilan agar peluang kerja ikut berkembang."]
+ ],seed>>>9);
+ const family=choose([
+  ["Rumah yang ramai","Dalam cerita fiksi ini, kamu membayangkan keluarga dengan dua anak—tetapi jumlah anak atau pilihan untuk punya anak sepenuhnya keputusan pribadi di masa depan."],
+  ["Keluarga kecil yang hangat","Skenario imajinernya menggambarkan satu anak dan suasana rumah yang tenang—bukan ramalan atau anjuran tentang ukuran keluarga."],
+  ["Bentuk keluarga yang kamu pilih","Kartu ini tidak menetapkan jumlah anak. Kamu mungkin memilih punya anak, tidak punya anak, atau membangun keluarga dengan cara lain; semuanya bergantung pada pilihan dan keadaanmu kelak."]
+ ],seed>>>11);
+ const home=choose(["tempat tinggal yang nyaman dekat ruang hijau","kota yang menyediakan banyak peluang belajar dan bekerja","lingkungan yang dekat dengan orang-orang yang kamu percaya"],seed>>>13);
+ const challenge=choose([
+  "tantangan terbesarmu adalah menjaga fokus ketika banyak ide datang bersamaan",
+  "kamu perlu belajar mengatakan tidak pada hal yang menguras waktu dan energi",
+  "kamu akan terbantu dengan membangun rutinitas kecil dan berani meminta masukan"
+ ],seed>>>15);
+ return {name,job,place,partnerTraits,relationshipScene,moneyPath,family,home,challenge,dream};
+}
+let activeTab='destiny';
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));activeTab=b.dataset.tab}));
+document.getElementById('fortuneBtn').addEventListener('click',()=>{
+ const f=makeFortune(),box=document.getElementById('fortuneResult');box.classList.add('show');
+ if(activeTab==='destiny'){
+  box.innerHTML=`<h3>✧ Future dossier: ${escapeHTML(f.name)}</h3>
+  <span class="pill">PERSONALIZED STORY</span><span class="pill">FICTIONAL SCENARIO</span>
+  <p><strong>01 · Career chapter — ${f.job[0]}</strong><br>Dalam skenario masa depan imajiner ini, kamu bekerja di ${f.place}. Aktivitasmu sehari-hari berkisar pada ${f.job[1]}. Hal yang layak mulai kamu latih: ${f.job[2]}.</p>
+  <p><strong>02 · Love & partnership</strong><br>Gambaran pasangan dalam cerita ini adalah seseorang yang ${f.partnerTraits}. ${f.relationshipScene} Hubungan sehat tetap perlu rasa aman, saling menghormati, dan komunikasi dua arah.</p>
+  <p><strong>03 · Money & lifestyle</strong><br><b>${f.moneyPath[0]}</b><br>${f.moneyPath[1]} Ini bukan prediksi jumlah uang atau status kaya; hasil finansial dipengaruhi banyak keputusan dan keadaan.</p>
+  <p><strong>04 · Family & home</strong><br>${f.family[0]} ${f.family[1]} Dalam cerita ini, kamu tinggal di ${f.home}.</p>
+  <p><strong>05 · Plot twist / tantangan</strong><br>${f.challenge}. Menghadapinya bisa dimulai dari kebiasaan kecil yang konsisten.</p>
+  <p><strong>06 · Your dream</strong><br>${f.dream?`Impian yang kamu tulis adalah “${escapeHTML(f.dream)}”. Jadikan itu proyek kecil: tentukan satu langkah yang bisa kamu lakukan minggu ini.`:'Kamu belum menuliskan impian tertentu. Tidak apa-apa—rasa ingin tahu bisa menjadi awal yang bagus.'}</p>
+  <p style="color:#f3c978">✨ Pesan kartu: masa depan bukan sesuatu yang dibaca dari wajah. Cerita ini dibuat dari pilihan minatmu dan elemen acak untuk hiburan.</p>`;
+ }else{
+  box.innerHTML=`<h3>✧ Your personal vibe — ${escapeHTML(f.name)}</h3><span class="pill">SELF-DISCOVERY</span><p><strong>Natural direction</strong><br>Minatmu mengarah pada cerita profesi <b>${f.job[0]}</b>, terutama karena bidang ini melibatkan ${f.job[2]}.</p><p><strong>Growth challenge</strong><br>${f.challenge}. Kamu bisa mengujinya lewat satu kegiatan kecil, bukan harus langsung menentukan seluruh masa depan.</p><p><strong>Next tiny step</strong><br>${f.dream?`Cari satu sumber belajar atau proyek pemula tentang “${escapeHTML(f.dream)}”.`:'Coba satu aktivitas baru, lalu catat bagian mana yang paling kamu nikmati.'}</p>`;
+ }
+});
+function escapeHTML(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+</script>
+</body>
+</html>
