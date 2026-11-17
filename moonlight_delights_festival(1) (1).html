@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moonlight Delights · Mid-Autumn Festival</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Noto+Serif+SC:wght@400;600;700&family=Playfair+Display:wght@500;600;700&display=swap');
+
+:root{
+ --red:#3a0714;--red2:#5b0d1d;--red3:#76152a;--deep:#21030b;
+ --gold:#d7a84e;--gold2:#f6dc93;--cream:#fff0ca;--muted:#d6b98b;
+ --panel:rgba(71,9,24,.82);--border:rgba(221,176,81,.5);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+ margin:0;color:var(--cream);font-family:"Playfair Display",serif;
+ background:
+  radial-gradient(circle at 10% 10%,rgba(239,189,86,.11) 0 2px,transparent 3px),
+  radial-gradient(circle at 80% 35%,rgba(239,189,86,.08) 0 2px,transparent 3px),
+  linear-gradient(135deg,rgba(244,193,91,.035) 25%,transparent 25%) 0 0/72px 72px,
+  linear-gradient(45deg,rgba(244,193,91,.03) 25%,transparent 25%) 0 0/72px 72px,
+  linear-gradient(#310611,#570d20 50%,#25040d);
+ overflow-x:hidden;
+}
+body:before{
+ content:"";position:fixed;inset:0;pointer-events:none;opacity:.42;
+ background:repeating-radial-gradient(circle at 30% 20%,transparent 0 42px,rgba(224,178,76,.035) 43px 44px);
+ z-index:0;
+}
+button{font-family:inherit}
+a{text-decoration:none;color:inherit}
+.container{width:min(1180px,92%);margin:auto}
+header{
+ position:fixed;z-index:99;top:0;left:0;right:0;
+ background:rgba(32,3,10,.92);backdrop-filter:blur(12px);
+ border-bottom:1px solid rgba(220,176,79,.4)
+}
+.nav{height:68px;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;gap:10px;align-items:center;font-family:"Cinzel";color:var(--gold2);font-size:1.05rem}
+.logo span{font-family:"Noto Serif SC";font-size:1.4rem}
+nav{display:flex;align-items:center;gap:28px;font-size:.86rem}
+nav a{color:#f2dfba;opacity:.9;transition:.2s}
+nav a:hover{color:var(--gold2)}
+.music{
+ border:1px solid var(--gold);background:transparent;color:var(--gold2);
+ border-radius:30px;padding:8px 14px;cursor:pointer
+}
+.hero{
+ min-height:760px;padding-top:68px;position:relative;overflow:hidden;
+ display:flex;align-items:center;
+ background:
+  radial-gradient(circle at 70% 37%,rgba(255,219,127,.13),transparent 24%),
+  linear-gradient(90deg,rgba(37,4,13,.9) 0%,rgba(54,6,18,.72) 47%,rgba(54,6,18,.15) 100%);
+ border-bottom:1px solid var(--border)
+}
+.hero .content{position:relative;z-index:5;padding:90px 0 80px}
+.kicker{font-family:"Noto Serif SC";color:var(--gold2);letter-spacing:5px;font-size:.9rem}
+.hero h1{
+ font-family:"Noto Serif SC";font-size:clamp(3.2rem,7vw,6.7rem);
+ line-height:.95;margin:14px 0 6px;color:#ffe9ad;text-shadow:0 5px 35px rgba(0,0,0,.6)
+}
+.hero h2{font-family:"Cinzel";font-weight:500;font-size:clamp(1.3rem,2.7vw,2.2rem);margin:0;color:#fff0cb}
+.hero p{max-width:570px;line-height:1.75;color:#e4cda6;font-size:1rem}
+.gold-btn{
+ display:inline-flex;align-items:center;gap:8px;margin-top:18px;
+ border:1px solid var(--gold);color:#35100e;background:linear-gradient(135deg,#ffe6a0,#c99237);
+ padding:12px 23px;border-radius:28px;font-weight:700;cursor:pointer;
+ box-shadow:0 10px 30px rgba(0,0,0,.28);transition:.25s
+}
+.gold-btn:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(0,0,0,.4)}
+/* HTML/CSS moon illustration */
+.hero-art{position:absolute;right:-3%;top:60px;width:min(58vw,690px);height:650px;z-index:2}
+.big-moon{
+ position:absolute;width:470px;height:470px;border-radius:50%;right:95px;top:55px;
+ background:radial-gradient(circle at 35% 30%,#fff8d7,#f7d979 48%,#ce9a3a 75%,#81541d);
+ box-shadow:0 0 70px rgba(250,218,132,.35),0 0 180px rgba(250,218,132,.16)
+}
+.big-moon:after{
+ content:"";position:absolute;inset:45px;border-radius:50%;
+ background:
+ radial-gradient(circle at 25% 35%,rgba(117,78,28,.16) 0 22px,transparent 23px),
+ radial-gradient(circle at 70% 22%,rgba(117,78,28,.13) 0 34px,transparent 35px),
+ radial-gradient(circle at 65% 70%,rgba(117,78,28,.11) 0 27px,transparent 28px),
+ radial-gradient(circle at 33% 75%,rgba(117,78,28,.12) 0 18px,transparent 19px)
+}
+.chang{position:absolute;right:145px;top:118px;width:170px;height:210px;z-index:4;filter:url(#softPaint) drop-shadow(0 12px 18px rgba(45,7,13,.45));animation:float 4s ease-in-out infinite}.art-svg{width:100%;height:100%;overflow:visible}
+.rabbit{position:absolute;width:82px;height:82px;z-index:5;animation:hop 3s ease-in-out infinite;filter:url(#softPaint) drop-shadow(0 8px 10px rgba(45,7,13,.35))}.rabbit .art-svg{width:100%;height:100%}
+.r1{right:78px;bottom:120px}.r2{right:425px;bottom:150px;font-size:42px;animation-delay:-1s}
+@keyframes float{50%{transform:translateY(-12px)}}
+@keyframes hop{0%,100%{transform:translateY(0)}50%{transform:translateY(-17px)}}
+.cloud{position:absolute;height:55px;border-radius:50%;background:rgba(255,231,184,.11);filter:blur(3px);z-index:3}
+.cloud:before,.cloud:after{content:"";position:absolute;background:inherit;border-radius:50%}
+.cloud:before{width:110px;height:75px;left:35px;top:-28px}.cloud:after{width:90px;height:65px;right:35px;top:-18px}
+.c1{right:380px;bottom:125px;width:240px}.c2{right:20px;top:350px;width:260px}
+.lantern{position:absolute;width:72px;height:112px;filter:url(#softPaint) drop-shadow(0 0 14px rgba(255,179,64,.42));animation:swing 3s ease-in-out infinite;z-index:6}.lantern .art-svg{width:100%;height:100%}
+.l1{left:4%;top:120px}.l2{right:2%;top:100px;animation-delay:-1.2s}.l3{left:18%;bottom:70px;font-size:40px}
+@keyframes swing{50%{transform:translateY(13px) rotate(6deg)}}
+.blossom{position:absolute;width:46px;height:46px;z-index:4;opacity:.8;animation:petal 7s linear infinite;filter:url(#softPaint)}.blossom .art-svg{width:100%;height:100%}
+.b1{left:7%;top:30%}.b2{right:15%;top:16%;animation-delay:-3s}.b3{left:42%;bottom:6%;animation-delay:-5s}
+@keyframes petal{0%{transform:translateY(-20px) rotate(0);opacity:0}20%{opacity:.8}100%{transform:translate(60px,520px) rotate(330deg);opacity:0}}
+
+section{padding:92px 0;position:relative;z-index:2}
+.title{text-align:center;margin-bottom:38px}
+.cn{font-family:"Noto Serif SC";color:var(--gold2);font-size:1.7rem}
+.title h2{font-family:"Cinzel";font-size:2.25rem;margin:6px 0;color:#fff0c7}
+.title p{color:var(--muted);max-width:650px;margin:auto;line-height:1.65}
+.story{
+ display:grid;grid-template-columns:390px 1fr;gap:0;align-items:stretch;
+ border:1px solid var(--border);background:linear-gradient(120deg,#fff0cc,#e7c27c);
+ color:#35110d;border-radius:26px;overflow:hidden;box-shadow:0 22px 60px rgba(0,0,0,.28)
+}
+.story-art{
+ min-height:440px;position:relative;overflow:hidden;
+ background:radial-gradient(circle at 50% 35%,#ffd98b,#8b2632 38%,#3e0716 78%);
+ display:grid;place-items:center
+}
+.story-moon{width:270px;height:270px;border-radius:50%;background:radial-gradient(circle,#fff1bd,#d9a34a);box-shadow:0 0 55px #e7bd67}
+.story-chang{position:absolute;width:125px;height:155px;top:118px;filter:url(#softPaint)}.story-chang .art-svg{width:100%;height:100%}
+.story-rabbit{position:absolute;width:68px;height:68px;bottom:88px;right:70px;filter:url(#softPaint)}.story-rabbit .art-svg{width:100%;height:100%}
+.story-copy{padding:42px}
+.story-copy h3{font-family:"Noto Serif SC";font-size:1.8rem;margin:0;color:#68152a}
+.story-copy .columns{display:grid;grid-template-columns:1fr 1fr;gap:25px;margin-top:20px}
+.story-copy p{line-height:1.7;font-size:.93rem;margin:0}
+.story-copy .en{border-right:1px solid #b7894b;padding-right:24px}
+.story-copy .id{color:#633d2d}
+
+.meaning{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px}
+.panel{
+ background:linear-gradient(145deg,rgba(101,17,38,.8),rgba(40,5,14,.85));
+ border:1px solid var(--border);border-radius:22px;padding:28px;
+ box-shadow:0 18px 45px rgba(0,0,0,.2)
+}
+.panel .emoji{width:70px;height:70px;filter:url(#softPaint)}.panel .emoji .art-svg{width:100%;height:100%}.panel h3{color:var(--gold2);margin:10px 0}.panel p{color:#d9c19a;line-height:1.65}
+
+.collection{display:grid;grid-template-columns:1.05fr 1fr;gap:30px;align-items:center}
+.mooncake-stage{
+ min-height:420px;border-radius:28px;border:1px solid var(--border);position:relative;overflow:hidden;
+ background:radial-gradient(circle at 50% 50%,#76162b,#350714 70%);
+ display:flex;align-items:center;justify-content:center
+}
+.mooncake-plate{position:absolute;width:390px;height:120px;border-radius:50%;bottom:65px;background:rgba(10,1,4,.4);filter:blur(3px)}
+.cake{
+ width:230px;height:150px;border-radius:45% 45% 40% 40%;
+ background:linear-gradient(#eab25e,#b86b27);position:relative;
+ box-shadow:inset 0 -16px 25px rgba(83,32,13,.35),0 25px 30px rgba(0,0,0,.4);
+ transform:rotate(-5deg)
+}
+.cake:before{
+ content:"中秋";position:absolute;inset:30px 55px;display:grid;place-items:center;
+ border:3px solid rgba(102,49,16,.35);border-radius:50%;color:#6d3618;font-family:"Noto Serif SC";font-size:35px
+}
+.cake:after{
+ content:"";position:absolute;left:45px;right:45px;bottom:-16px;height:30px;border-radius:50%;background:#8c4c20
+}
+.mini-cake{position:absolute;width:90px;height:60px;border-radius:45%;background:linear-gradient(#efbd68,#b86b2b);box-shadow:0 8px 12px #18030a}
+.mc1{left:55px;bottom:92px;transform:rotate(9deg)}.mc2{right:50px;bottom:100px;transform:rotate(-12deg)}
+.collection-copy h3{font-family:"Noto Serif SC";font-size:1.8rem;color:var(--gold2)}
+.collection-copy p{color:#d8c09a;line-height:1.7}
+.flavors{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:22px}
+.flavor{padding:16px;border:1px solid rgba(217,168,76,.3);border-radius:15px;background:rgba(255,219,132,.04)}
+.flavor b{color:#ffe5a3}.flavor small{display:block;color:#bfa67e;margin-top:4px}
+
+.game{display:grid;grid-template-columns:380px 1fr;gap:24px}
+.game-board{height:390px;position:relative;overflow:hidden;border:1px solid var(--border);border-radius:25px;background:radial-gradient(circle at 50% 35%,#70172a,#25040d)}
+.game-board .gbmoon{position:absolute;width:150px;height:150px;top:45px;right:65px;filter:url(#softPaint) drop-shadow(0 0 30px rgba(240,213,130,.35))}.game-board .gbmoon .art-svg{width:100%;height:100%}
+.game-lantern{position:absolute;background:none;border:0;width:64px;height:92px;padding:0;cursor:pointer;animation:gamefloat 2.3s ease-in-out infinite;z-index:5;filter:url(#softPaint) drop-shadow(0 0 12px rgba(255,179,64,.4))}.game-lantern .art-svg{width:100%;height:100%}
+@keyframes gamefloat{50%{transform:translateY(-10px) rotate(4deg)}}
+.score{font-size:1.25rem;color:var(--gold2);margin:18px 0}
+.gallery{display:grid;grid-template-columns:1.5fr 1fr 1fr;grid-template-rows:180px 180px;gap:14px}
+.gallery-card{border:1px solid var(--border);border-radius:20px;overflow:hidden;position:relative;background:linear-gradient(135deg,#74172b,#2d0611)}
+.gallery-card:first-child{grid-row:span 2}
+.gallery-card:before{position:absolute;inset:0;display:grid;place-items:center;background:linear-gradient(135deg,#74172b,#2d0611)}
+.g1:before{content:"";background:radial-gradient(circle at 50% 42%,#eac66e 0 22%,transparent 23%),radial-gradient(circle at 50% 42%,#eac66e 0 32%,#651225 55%,#27040d 100%)}.g2:before{content:"";background:linear-gradient(135deg,#641025,#23040c)}.g3:before{content:"";background:linear-gradient(135deg,#7c4320,#2a0710)}.g4:before{content:"";background:linear-gradient(135deg,#71162a,#2c0610)}.g5:before{content:"";background:linear-gradient(135deg,#4e1020,#23040c)}
+.gallery-card .gallery-art{position:absolute;width:92px;height:120px;left:50%;top:50%;transform:translate(-50%,-50%);filter:url(#softPaint) drop-shadow(0 10px 16px rgba(0,0,0,.35))}
+
+footer{padding:60px 0;border-top:1px solid var(--border);background:#21030b;text-align:center;position:relative;z-index:2}
+footer .cn{font-size:1.8rem}
+footer p{color:#bfa47d}
+
+.modal{position:fixed;inset:0;background:rgba(9,1,4,.8);backdrop-filter:blur(9px);display:none;place-items:center;z-index:200;padding:20px}
+.modal.show{display:grid}.modalbox{max-width:570px;width:100%;padding:35px;border:1px solid var(--gold);border-radius:25px;background:#4d0a1b}
+.close{position:absolute;right:18px;top:14px;background:none;border:0;color:var(--gold2);font-size:25px;cursor:pointer}
+.modalbox{position:relative}.modalbox h2{color:var(--gold2)}.modalbox p{color:#d9c09a;line-height:1.7}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);opacity:0;z-index:300;background:#f3d37f;color:#310812;padding:12px 19px;border-radius:25px;font-weight:700;transition:.3s}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.spark{position:fixed;width:4px;height:4px;background:#ffe39b;border-radius:50%;box-shadow:0 0 12px #ffe39b;z-index:1;animation:spark 3s ease-in-out infinite}
+@keyframes spark{50%{opacity:.15;transform:translate(12px,-18px)}}
+@media(max-width:900px){
+ nav a{display:none}.hero-art{opacity:.55;right:-35%;}.hero{min-height:720px}
+ .story,.collection,.game{grid-template-columns:1fr}.story-art{min-height:320px}.story-copy .columns{grid-template-columns:1fr}.story-copy .en{border-right:0;border-bottom:1px solid #b7894b;padding:0 0 20px}
+ .meaning{grid-template-columns:1fr}.gallery{grid-template-columns:1fr 1fr;grid-template-rows:180px 180px}.gallery-card:first-child{grid-row:auto}
+}
+</style>
+</head>
+
+<body>
+<svg class="art-defs" aria-hidden="true">
+ <defs>
+  <linearGradient id="gLantern" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#a63b32"/><stop offset=".5" stop-color="#6d1325"/><stop offset="1" stop-color="#310712"/></linearGradient>
+  <linearGradient id="gDress" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f0c879"/><stop offset=".42" stop-color="#b56a4e"/><stop offset="1" stop-color="#5d1729"/></linearGradient>
+  <linearGradient id="gRabbit" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f7e5c1"/><stop offset="1" stop-color="#b99672"/></linearGradient>
+  <filter id="softPaint"><feTurbulence type="fractalNoise" baseFrequency=".018" numOctaves="2" seed="8" result="noise"/><feDisplacementMap in="SourceGraphic" in2="noise" scale="2"/><feGaussianBlur stdDeviation=".25"/></filter>
+  <filter id="glowPaint"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <g id="lanternArt">
+   <path d="M40 6h20M45 12h10M50 0v6" stroke="#d8ad55" stroke-width="3" stroke-linecap="round" fill="none"/>
+   <path d="M26 16 Q50 6 74 16 L70 76 Q50 91 30 76Z" fill="url(#gLantern)" stroke="#d7a84e" stroke-width="2"/>
+   <path d="M34 20v54M44 17v61M56 17v61M66 20v54" stroke="#e7bd68" stroke-width="2" opacity=".55"/>
+   <path d="M25 25 Q50 33 75 25M28 68 Q50 61 72 68" stroke="#f0cc7a" stroke-width="2" opacity=".45" fill="none"/>
+   <path d="M35 78 Q50 87 65 78 L60 92 Q50 100 40 92Z" fill="#d6a54c"/>
+  </g>
+  <g id="rabbitArt">
+   <path d="M39 28 Q27 2 34 0 Q45 4 47 25 Q55 10 63 1 Q69 1 63 29 Q78 34 79 50 Q80 68 62 73 Q43 78 27 67 Q14 58 19 43 Q23 31 39 28Z" fill="url(#gRabbit)" stroke="#e8d1ae" stroke-width="2"/>
+   <circle cx="42" cy="42" r="2.6" fill="#4c1b1d"/><path d="M51 50 Q56 54 61 50" fill="none" stroke="#6c3b34" stroke-width="2" stroke-linecap="round"/>
+   <path d="M31 9 Q38 18 39 29M62 8 Q57 17 54 29" fill="none" stroke="#b28c68" stroke-width="2" opacity=".8"/>
+  </g>
+  <g id="changEArt">
+   <path d="M51 28 Q48 16 55 8 Q62 2 70 8 Q76 15 70 28" fill="#d7a36e"/>
+   <path d="M42 39 Q48 30 60 30 Q73 30 80 41 L77 56 Q72 61 68 69 Q58 89 45 112 Q32 102 21 91 Q36 70 39 55Z" fill="url(#gDress)" stroke="#f0cc86" stroke-width="1.5"/>
+   <path d="M47 37 Q39 25 31 20M69 38 Q79 24 86 17" stroke="#f4d998" stroke-width="4" fill="none" stroke-linecap="round" opacity=".85"/>
+   <path d="M44 57 Q61 65 75 54" stroke="#f3d28b" stroke-width="2" fill="none" opacity=".55"/>
+   <path d="M54 17 Q69 15 82 26" stroke="#e6bd70" stroke-width="2" fill="none" opacity=".65"/>
+  </g>
+  <g id="teaArt">
+   <ellipse cx="50" cy="65" rx="34" ry="8" fill="#321016" opacity=".35"/>
+   <path d="M23 35 Q50 27 77 35 L72 61 Q50 72 28 61Z" fill="#d6a85b" stroke="#f2d694" stroke-width="2"/>
+   <path d="M77 42 Q94 38 94 51 Q92 62 75 58" fill="none" stroke="#d6a85b" stroke-width="7"/>
+   <ellipse cx="50" cy="35" rx="27" ry="7" fill="#7e4a28"/>
+   <path d="M40 20 Q33 9 42 3M53 20 Q48 9 56 2M64 21 Q64 10 72 6" stroke="#f5dfb1" stroke-width="2" fill="none" stroke-linecap="round" opacity=".55"/>
+  </g>
+  <g id="blossomArt">
+   <path d="M50 50 C20 43 11 23 28 20 C39 18 47 28 50 39 C53 28 61 18 72 20 C89 23 80 43 50 50 C80 53 89 72 72 78 C61 82 53 72 50 61 C47 72 39 82 28 78 C11 72 20 53 50 50Z" fill="#d99a91" opacity=".78"/>
+   <circle cx="50" cy="50" r="8" fill="#e6bd62"/>
+  </g>
+  <g id="moonArt"><circle cx="50" cy="50" r="46" fill="#e7c773"/><circle cx="34" cy="31" r="9" fill="#a57b3d" opacity=".18"/><circle cx="67" cy="24" r="12" fill="#a57b3d" opacity=".13"/><circle cx="64" cy="66" r="10" fill="#a57b3d" opacity=".12"/></g>
+  <g id="cakeArt"><path d="M15 38 Q50 24 85 38 L80 70 Q50 88 20 70Z" fill="#c98a42" stroke="#f1cb7e" stroke-width="3"/><ellipse cx="50" cy="39" rx="35" ry="11" fill="#e5b05b"/><path d="M36 38 Q50 29 64 38 Q50 47 36 38Z" fill="none" stroke="#8a4c25" stroke-width="2"/><text x="50" y="57" text-anchor="middle" font-family="serif" font-size="15" fill="#75401f">中秋</text></g>
+ </defs>
+</svg>
+
+<header>
+ <div class="container nav">
+  <a class="logo" href="#home"><span>月</span> Moonlight Delights</a>
+  <nav>
+   <a href="#home">Home</a><a href="#story">Our Story</a><a href="#collection">Mooncake Collection</a><a href="#game">Game</a><a href="#gallery">Gallery</a>
+   <button class="music" id="musicBtn" onclick="toggleMusic()">♫ Music: OFF</button>
+  </nav>
+ </div>
+</header>
+
+<div class="spark" style="left:11%;top:28%"></div><div class="spark" style="left:27%;top:65%;animation-delay:-1s"></div>
+<div class="spark" style="left:81%;top:57%;animation-delay:-2s"></div><div class="spark" style="left:68%;top:18%;animation-delay:-.5s"></div>
+
+<section class="hero" id="home">
+ <div class="lantern l1"><svg class="art-svg"><use href="#lanternArt"/></svg></div><div class="lantern l2"><svg class="art-svg"><use href="#lanternArt"/></svg></div><div class="lantern l3"><svg class="art-svg"><use href="#lanternArt"/></svg></div>
+ <div class="blossom b1"><svg class="art-svg"><use href="#blossomArt"/></svg></div><div class="blossom b2"><svg class="art-svg"><use href="#blossomArt"/></svg></div><div class="blossom b3"><svg class="art-svg"><use href="#blossomArt"/></svg></div>
+ <div class="cloud c1"></div><div class="cloud c2"></div>
+ <div class="container content">
+  <div class="kicker">月满中秋 · 团圆之夜</div>
+  <h1>Mid-Autumn<br>Festival</h1>
+  <h2>Mooncakes, Family, Eternal Blessings</h2>
+  <p>一块月饼 · 一份思念 · 一家团圆<br>
+  One mooncake, one thought, one family reunited.<br>
+  Satu kue bulan, satu kerinduan, satu keluarga yang bersatu kembali.</p>
+  <a class="gold-btn" href="#story">Discover the Story →</a>
+ </div>
+ <div class="hero-art">
+  <div class="big-moon"></div>
+  <div class="chang"><svg class="art-svg"><use href="#changEArt"/></svg></div>
+  <div class="rabbit r1"><svg class="art-svg"><use href="#rabbitArt"/></svg></div><div class="rabbit r2"><svg class="art-svg"><use href="#rabbitArt"/></svg></div>
+ </div>
+</section>
+
+<section id="story">
+ <div class="container">
+  <div class="title"><div class="cn">嫦娥奔月</div><h2>The Legend of Chang'e</h2><p>A timeless story told beneath the full moon.</p></div>
+  <div class="story">
+   <div class="story-art">
+    <div class="story-moon"></div><div class="story-chang"><svg class="art-svg"><use href="#changEArt"/></svg></div><div class="story-rabbit"><svg class="art-svg"><use href="#rabbitArt"/></svg></div>
+   </div>
+   <div class="story-copy">
+    <h3>嫦娥奔月 · The Moon Palace</h3>
+    <div class="columns">
+     <div class="en">
+      <p><b>English</b><br><br>
+      Long ago, ten suns appeared in the sky and scorched the earth. The heroic archer Hou Yi shot down nine of them and saved the people. He was given an elixir of immortality and entrusted it to his wife, Chang'e.
+      <br><br>
+      When someone tried to steal the elixir, Chang'e drank it to keep it from falling into the wrong hands. She rose toward the heavens and chose the moon as her home. Since then, people have looked at the moon during Mid-Autumn Festival and remembered the people they love.</p>
+     </div>
+     <div class="id">
+      <p><b>中文 · Mandarin</b><br><br>
+      很久以前，天空中出现了十个太阳，大地被烈日炙烤。英雄后羿射下九个太阳，拯救了百姓。后来，他得到长生不老药，并把仙药交给妻子嫦娥保管。
+      <br><br>
+      当有人企图抢走仙药时，嫦娥为了不让仙药落入坏人手中，吞下了仙药。她飞向天空，最后住在月亮上。从此，人们在中秋节仰望明月，寄托对亲人的思念。</p>
+     </div>
+    </div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section>
+ <div class="container">
+  <div class="title"><div class="cn">节日的意义</div><h2>The Meaning of Mid-Autumn</h2><p>More than a beautiful night — it is a celebration of togetherness.</p></div>
+  <div class="meaning">
+   <div class="panel"><div class="emoji"><svg class="art-svg"><use href="#moonArt"/></svg></div><h3>Reunion · 团圆</h3><p>The round moon and round mooncakes are often associated with wholeness, reunion, and being together with family.</p></div>
+   <div class="panel"><div class="emoji"><svg class="art-svg"><use href="#lanternArt"/></svg></div><h3>Lanterns · 灯笼</h3><p>Glowing lanterns create a warm festive atmosphere and are especially beloved as part of children's celebrations.</p></div>
+   <div class="panel"><div class="emoji"><svg class="art-svg"><use href="#teaArt"/></svg></div><h3>Tea · 茶</h3><p>Tea pairs naturally with mooncakes and creates a calm moment to share stories around the table.</p></div>
+  </div>
+ </div>
+</section>
+
+<section id="collection">
+ <div class="container">
+  <div class="title"><div class="cn">月饼系列</div><h2>Mooncake Collection</h2><p>No prices — just flavors, stories, and the joy of sharing.</p></div>
+  <div class="collection">
+   <div class="mooncake-stage">
+    <div class="moonckake-title"></div><div class="mooncake-plate"></div>
+    <div class="mini-cake mc1"></div><div class="mini-cake mc2"></div><div class="cake"></div>
+   </div>
+   <div class="collection-copy">
+    <h3>Made for a Moonlit Reunion</h3>
+    <p>Every mooncake is a small circle of tradition. Explore classic flavors and modern favorites designed to become part of a memorable Mid-Autumn table.</p>
+    <div class="flavors">
+     <div class="flavor"><b>莲蓉 · Lotus</b><small>Silky lotus seed paste</small></div>
+     <div class="flavor"><b>红豆 · Red Bean</b><small>Sweet, smooth and nostalgic</small></div>
+     <div class="flavor"><b>蛋黄 · Salted Egg</b><small>Rich and savory center</small></div>
+     <div class="flavor"><b>冰皮 · Snow Skin</b><small>Soft, modern and delicate</small></div>
+    </div>
+    <button class="gold-btn" onclick="showToast('Collection explored · 月饼快乐!')">Explore the Flavors ✦</button>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section id="game">
+ <div class="container">
+  <div class="title"><div class="cn">捉月灯</div><h2>Catch the Moon Lanterns</h2><p>Catch as many glowing lanterns as you can in 20 seconds.</p></div>
+  <div class="game">
+   <div class="panel">
+    <h3>Moon Lantern Game</h3>
+    <p>Click the floating lanterns before they disappear. Reach 10 points to unlock a little celebration.</p>
+    <div class="score">Score: <span id="score">0</span> · Time: <span id="time">20</span>s</div>
+    <button class="gold-btn" onclick="startGame()">Play Now →</button>
+    <p id="gameMessage"></p>
+   </div>
+   <div class="game-board" id="gameBoard">
+    <div class="gbmoon"><svg class="art-svg"><use href="#moonArt"/></svg></div>
+    <div class="rabbit" style="right:45px;bottom:35px"><svg class="art-svg"><use href="#rabbitArt"/></svg></div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section id="gallery">
+ <div class="container">
+  <div class="title"><div class="cn">节日相册</div><h2>Festival Gallery</h2><p>A little visual corner for the moonlit celebration.</p></div>
+  <div class="gallery">
+   <div class="gallery-card g1"><svg class="gallery-art"><use href="#moonArt"/></svg></div><div class="gallery-card g2"><svg class="gallery-art"><use href="#lanternArt"/></svg></div><div class="gallery-card g3"><svg class="gallery-art"><use href="#cakeArt"/></svg></div><div class="gallery-card g4"><svg class="gallery-art"><use href="#blossomArt"/></svg></div><div class="gallery-card g5"><svg class="gallery-art"><use href="#rabbitArt"/></svg></div>
+  </div>
+ </div>
+</section>
+
+<footer>
+ <div class="container">
+  <div class="cn">月圆人团圆</div>
+  <p>Together under the same moon · 在同一轮明月下相聚</p>
+  <small>Moonlight Delights · Mid-Autumn Festival</small>
+ </div>
+</footer>
+
+<div class="modal" id="modal"><div class="modalbox">
+ <button class="close" onclick="closeModal()">×</button>
+ <div class="cn">月饼故事</div><h2>Every Mooncake Has a Story</h2>
+ <p>Mooncakes are traditionally shared during the Mid-Autumn Festival, turning a simple dessert into a symbol of gathering, remembrance, and celebration.</p>
+ <button class="gold-btn" onclick="closeModal()">Close ✦</button>
+</div></div>
+<div class="toast" id="toast"></div>
+
+<!--
+ MUSIC:
+ Place a legally licensed / royalty-free Mandarin instrumental file named
+ "mooncake-music.mp3" beside this HTML file. Music begins after the visitor
+ presses the Music button because browsers generally block autoplay.
+-->
+<audio id="bgMusic" loop preload="metadata">
+ <source src="mooncake-music.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const music=document.getElementById('bgMusic');
+const musicBtn=document.getElementById('musicBtn');
+let musicOn=false;
+music.volume=.32;
+
+function toggleMusic(){
+ if(!musicOn){
+   music.play().then(()=>{
+     musicOn=true;musicBtn.textContent='♫ Music: ON';
+     showToast('Moonlight music is playing');
+   }).catch(()=>{
+     showToast('Tambahkan mooncake-music.mp3 di folder yang sama.');
+   });
+ }else{
+   music.pause();musicOn=false;musicBtn.textContent='♫ Music: OFF';
+ }
+}
+music.addEventListener('error',()=>showToast('File mooncake-music.mp3 belum ditemukan.'));
+
+function showToast(msg){
+ const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
+ setTimeout(()=>t.classList.remove('show'),2400);
+}
+
+let score=0,time=20,timer=null;
+function startGame(){
+ clearInterval(timer);score=0;time=20;
+ document.getElementById('score').textContent=score;
+ document.getElementById('time').textContent=time;
+ document.getElementById('gameMessage').textContent='Catch them!';
+ const board=document.getElementById('gameBoard');
+ board.querySelectorAll('.game-lantern').forEach(x=>x.remove());
+ spawnLantern();
+ timer=setInterval(()=>{
+  time--;document.getElementById('time').textContent=time;
+  if(time<=0){
+   clearInterval(timer);
+   board.querySelectorAll('.game-lantern').forEach(x=>x.remove());
+   document.getElementById('gameMessage').textContent='Time! Your final score: '+score;
+   if(score>=10)celebrate();
+  }
+ },1000);
+}
+function spawnLantern(){
+ if(time<=0)return;
+ const board=document.getElementById('gameBoard');
+ const l=document.createElement('button');l.className='game-lantern';l.setAttribute('aria-label','Moon lantern');l.innerHTML='<svg class="art-svg"><use href="#lanternArt"/></svg>'; 
+ l.style.left=(5+Math.random()*85)+'%';l.style.top=(20+Math.random()*68)+'%';
+ l.onclick=()=>{
+  score++;document.getElementById('score').textContent=score;l.remove();
+  if(score>=10)showToast('10 lanterns! 太棒了!');
+  spawnLantern();
+ };
+ board.appendChild(l);
+ setTimeout(()=>{if(l.isConnected){l.remove();spawnLantern()}},1100);
+}
+function celebrate(){
+ for(let i=0;i<20;i++){
+  const x=document.createElement('span');x.className='firefly';
+  x.style.position='fixed';x.style.left='50%';x.style.top='45%';x.style.zIndex=500;x.style.fontSize='20px';x.style.pointerEvents='none';
+  const dx=(Math.random()*600-300)+'px',dy=(Math.random()*450-225)+'px';
+  x.animate([{transform:'translate(0,0)',opacity:1},{transform:`translate(${dx},${dy}) rotate(540deg)`,opacity:0}],{duration:1700,easing:'ease-out'});
+  document.body.appendChild(x);setTimeout(()=>x.remove(),1750);
+ }
+ showToast('Moonlight celebration unlocked!');
+}
+</script>
+</body>
+</html>
